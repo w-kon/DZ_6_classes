@@ -25,10 +25,11 @@ class Student:
             resalt = []
             for value in self.grades.values():
                 resalt.extend(value)
-                print(resalt)
             return (sum(resalt)/len(resalt))
         else: return "Оценок нет"
         
+    def __str__(self) -> str:
+        return(f"Имя: {self.name} \nФамилия: {self.surname}\n\Средняя оценка за домашние задания: {Student.average_rating(self)}\n\Курсы в процессе изучения: {', '.join(self.courses_in_progress)}\n\Завершенные курсы: {', '.join(self.finished_courses)}\n")
 
         
 class Mentor:
@@ -44,23 +45,34 @@ class Lecturer(Mentor):
         super().__init__(name, surname)
         self.grades = {}
 
+    def average_rating(self):
+        if len(self.grades) != 0:
+            resalt = []
+            for value in self.grades.values():
+                resalt.extend(value)
+            return (sum(resalt)/len(resalt))
+        else: return "Оценок нет"
+
+    def __str__(self) -> str:
+        return(f"Имя: {self.name} \nФамилия: {self.surname}\nСредняя оценка за лекцию: {Lecturer.average_rating(self)}\n")
+
 class Reviewer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
 
     def rate_hw(self, student, course, grade):
-        #print(vars(self))
         if (isinstance(student, Student) 
             and course in self.courses_attached 
             and course in student.courses_in_progress):
             if course in student.grades:
-                #print(student.name, course, grade)
                 student.grades[course] += [grade]
             else:
-                #print('new',student.name, course, grade)
                 student.grades[course] = [grade]
         else:
-            print(f"Студенту {student.surname} не получается поставить оценку за курс {course}")
+            return 'Ошибка'
+
+    def __str__(self) -> str:
+        return(f"Имя: {self.name} \nФамилия: {self.surname}\n")
 
  
 student_1 = Student('Ruoy', 'Eman', 'your_gender')
@@ -98,9 +110,10 @@ student_3.rate_hw(lecturer_1, 'Python', 8)
 student_3.rate_hw(lecturer_1, 'Java', 10)
 
 
-
-print(lecturer_1.grades)
-
+print(student_1)
+print(reviewer_1)
+print(lecturer_1)
+#print(lecturer_1.grades)
 # print(student_1.grades)
 # print(student_2.grades)
 # print(Student.average_rating(student_3))
