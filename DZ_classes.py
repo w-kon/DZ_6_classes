@@ -40,6 +40,16 @@ class Student:
         if Student.average_rating(self) < Student.average_rating(other):
             return f"{self.name} {self.surname} {round(Student.average_rating(self), 2)} < {other.name} {other.surname} {round(Student.average_rating(other), 2)}"
         return f"{self.name} {self.surname} {round(Student.average_rating(self), 2)} > {other.name} {other.surname} {round(Student.average_rating(other), 2)}"
+    
+def average_score (list_student, course):
+    score = []
+    for student in list_student:
+        if (isinstance(student, Student) and (course in student.courses_in_progress or course in student.finished_courses)):
+            score.extend(student.grades[course])
+    return sum(score)/len(score)
+
+
+
 
         
 class Mentor:
@@ -93,6 +103,8 @@ class Reviewer(Mentor):
 
     def __str__(self) -> str:
         return(f"Имя: {self.name} \nФамилия: {self.surname}\n")
+    
+
 
  
 student_1 = Student('Ruoy', 'Eman', 'your_gender')
@@ -129,7 +141,7 @@ student_1.rate_hw(lecturer_2, 'Web', 1)
 student_2.rate_hw(lecturer_2, 'Web', 10)
 student_2.rate_hw(lecturer_2, 'Java', 9)
 
-
+list_student_test = ['Ruoy', 'Eman', 'your_gender']
 
 print(student_1)
 print(student_2)
