@@ -29,7 +29,17 @@ class Student:
         else: return "Оценок нет"
         
     def __str__(self) -> str:
-        return(f"Имя: {self.name} \nФамилия: {self.surname}\n\Средняя оценка за домашние задания: {Student.average_rating(self)}\n\Курсы в процессе изучения: {', '.join(self.courses_in_progress)}\n\Завершенные курсы: {', '.join(self.finished_courses)}\n")
+        return(f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {round(Student.average_rating(self), 2)}\nКурсы в процессе изучения: {', '.join(self.courses_in_progress)}\nЗавершенные курсы: {', '.join(self.finished_courses)}\n")
+    
+    def __eq__(self, other):
+        if Student.average_rating(self) == Student.average_rating(other):
+            return f"{self.name} {self.surname} {round(Student.average_rating(self), 2)} = {other.name} {other.surname} {round(Student.average_rating(other), 2)}"
+        return f"{self.name} {self.surname} {round(Student.average_rating(self), 2)} != {other.name} {other.surname} {round(Student.average_rating(other), 2)}"
+ 
+    def __lt__(self, other):
+        if Student.average_rating(self) < Student.average_rating(other):
+            return f"{self.name} {self.surname} {round(Student.average_rating(self), 2)} < {other.name} {other.surname} {round(Student.average_rating(other), 2)}"
+        return f"{self.name} {self.surname} {round(Student.average_rating(self), 2)} > {other.name} {other.surname} {round(Student.average_rating(other), 2)}"
 
         
 class Mentor:
@@ -54,7 +64,17 @@ class Lecturer(Mentor):
         else: return "Оценок нет"
 
     def __str__(self) -> str:
-        return(f"Имя: {self.name} \nФамилия: {self.surname}\nСредняя оценка за лекцию: {Lecturer.average_rating(self)}\n")
+        return(f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекцию: {round(Lecturer.average_rating(self), 2)}\n")
+
+    def __eq__(self, other):
+        if Lecturer.average_rating(self) == Lecturer.average_rating(other):
+            return f"{self.name} {self.surname} {round(Lecturer.average_rating(self), 2)} = {other.name} {other.surname} {round(Lecturer.average_rating(other), 2)}"
+        return f"{self.name} {self.surname} {round(Lecturer.average_rating(self), 2)} != {other.name} {other.surname} {round(Lecturer.average_rating(other), 2)}"
+ 
+    def __lt__(self, other):
+        if Lecturer.average_rating(self) < Lecturer.average_rating(other):
+            return f"{self.name} {self.surname} {round(Lecturer.average_rating(self), 2)} < {other.name} {other.surname} {round(Lecturer.average_rating(other), 2)}"
+        return f"{self.name} {self.surname} {round(Lecturer.average_rating(self), 2)} > {other.name} {other.surname} {round(Lecturer.average_rating(other), 2)}"
 
 class Reviewer(Mentor):
     def __init__(self, name, surname):
@@ -78,22 +98,21 @@ class Reviewer(Mentor):
 student_1 = Student('Ruoy', 'Eman', 'your_gender')
 student_1.courses_in_progress += ['Python', 'QA']
 student_1.finished_courses += ['Web']
-
 student_2 = Student('Mark', 'Eman', 'your_gender')
 student_2.courses_in_progress += ['Web', 'Java'] 
 student_2.finished_courses += ['Python']
 
-student_3 = Student('Mark', 'Eman', 'your_gender')
-student_3.courses_in_progress += ['Web', 'Java', 'Python'] 
-student_3.finished_courses += []
  
 reviewer_1 = Reviewer('Some', 'Buddy')
-reviewer_1.courses_attached += ['Python']
-reviewer_1.courses_attached += ['Java', 'QA', 'Web']
+reviewer_1.courses_attached += ['Python', 'QA', 'Java']
+reviewer_2 = Reviewer('Scot', 'Brin')
+reviewer_2.courses_attached += ['Java', 'QA', 'Web']
 
 lecturer_1 = Lecturer('Scott', 'Buddy')
-lecturer_1.courses_attached += ['Python', 'Java', 'Web']
- 
+lecturer_1.courses_attached += ['Python', 'Java', 'Web'] 
+lecturer_2 = Lecturer('Simon', 'Fluc')
+lecturer_2.courses_attached += ['Java', 'Web', 'QA']
+
 reviewer_1.rate_hw(student_1, 'Python', 9)
 reviewer_1.rate_hw(student_1, 'Python', 10)
 reviewer_1.rate_hw(student_1, 'QA', 10)
@@ -106,14 +125,23 @@ student_1.rate_hw(lecturer_1, 'Web', 1)
 student_2.rate_hw(lecturer_1, 'Web', 10)
 student_2.rate_hw(lecturer_1, 'Java', 9)
 student_2.rate_hw(lecturer_1, 'Python', 5)
-student_3.rate_hw(lecturer_1, 'Python', 8)
-student_3.rate_hw(lecturer_1, 'Java', 10)
+student_1.rate_hw(lecturer_2, 'Web', 1)
+student_2.rate_hw(lecturer_2, 'Web', 10)
+student_2.rate_hw(lecturer_2, 'Java', 9)
+
 
 
 print(student_1)
+print(student_2)
 print(reviewer_1)
+print(reviewer_2)
 print(lecturer_1)
-#print(lecturer_1.grades)
-# print(student_1.grades)
-# print(student_2.grades)
-# print(Student.average_rating(student_3))
+print(lecturer_2)
+print(lecturer_1.grades)
+print(lecturer_2.grades)
+print(student_1.grades)
+print(student_2.grades)
+print(student_1 == student_2)
+print(student_1 < student_2)
+print(lecturer_1 == lecturer_2)
+print(lecturer_1 < lecturer_2)
