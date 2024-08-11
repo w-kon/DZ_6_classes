@@ -1,4 +1,5 @@
 class Student:
+
     def __init__(self, name, surname, gender):
         self.name = name
         self.surname = surname
@@ -7,7 +8,6 @@ class Student:
         self.courses_in_progress = []
         self.grades = {}
         
-
     def rate_hw(self, lecturer, course, grade):
         if (isinstance(lecturer, Lecturer) 
             and course in lecturer.courses_attached 
@@ -40,13 +40,15 @@ class Student:
         if Student.average_rating(self) < Student.average_rating(other):
             return f"{self.name} {self.surname} {round(Student.average_rating(self), 2)} < {other.name} {other.surname} {round(Student.average_rating(other), 2)}"
         return f"{self.name} {self.surname} {round(Student.average_rating(self), 2)} > {other.name} {other.surname} {round(Student.average_rating(other), 2)}"
-    
+
+
 def average_score_student (list_student, course):
     score = []
     for student in list_student:
         if (isinstance(student, Student) and (course in student.courses_in_progress or course in student.finished_courses)):
             score.extend(student.grades[course])
     return 'нет оценок' if len(score) == 0 else (sum(score)/len(score))
+
 
 def average_score_lecturer (list_lecturer, course):
     score = []
@@ -55,7 +57,6 @@ def average_score_lecturer (list_lecturer, course):
             score.extend(lecturer.grades[course])
     return 'нет оценок' if len(score) == 0 else (sum(score)/len(score))
 
-
         
 class Mentor:
     def __init__(self, name, surname):
@@ -63,8 +64,7 @@ class Mentor:
         self.surname = surname
         self.courses_attached = []
         
-    
-        
+           
 class Lecturer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
@@ -91,6 +91,7 @@ class Lecturer(Mentor):
             return f"{self.name} {self.surname} {round(Lecturer.average_rating(self), 2)} < {other.name} {other.surname} {round(Lecturer.average_rating(other), 2)}"
         return f"{self.name} {self.surname} {round(Lecturer.average_rating(self), 2)} > {other.name} {other.surname} {round(Lecturer.average_rating(other), 2)}"
 
+
 class Reviewer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
@@ -110,8 +111,6 @@ class Reviewer(Mentor):
         return(f"Имя: {self.name} \nФамилия: {self.surname}\n")
     
 
-
- 
 student_1 = Student('Ruoy', 'Eman', 'your_gender')
 student_1.courses_in_progress += ['Python', 'QA', 'Java']
 student_1.finished_courses += ['Web']
@@ -119,7 +118,6 @@ student_2 = Student('Mark', 'Eman', 'your_gender')
 student_2.courses_in_progress += ['Web', 'Java', 'Python'] 
 student_2.finished_courses += ['QA']
 
- 
 reviewer_1 = Reviewer('Some', 'Buddy')
 reviewer_1.courses_attached += ['Python', 'QA', 'Java']
 reviewer_2 = Reviewer('Scot', 'Brin')
